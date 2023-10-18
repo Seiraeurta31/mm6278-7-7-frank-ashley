@@ -10,12 +10,12 @@ CREATE TABLE inventory (
 );
 
 -- Create the users table with
--- id that's primary key integer auto incrementing
--- username that's a 100 char varchar and unique
--- password that's a 200 char varchar
 CREATE TABLE users (
+  -- id that's primary key integer auto incrementing
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  -- username that's a 100 char varchar and unique
   username VARCHAR(100) NOT NULL UNIQUE,
+  -- password that's a 200 char varchar
   password VARCHAR(200) NOT NULL
 );
 
