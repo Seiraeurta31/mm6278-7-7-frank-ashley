@@ -126,26 +126,28 @@ router.post('/login', async (req, res) => {
 
     // Query the database by the username for the user
     const [[user]] = await db.query(
-      `SELECT * FROM users WHERE username = ?`, 
-      [username]
+      `SELECT * FROM users WHERE username = ?`, username
     )
     // If no user is found, return a 400 status code
-    if (!user) return res.status(400).send('user not found')
+    if (!user) 
+      return res.status(400).send('user not found')
     // If the user is found, use bcrypt.compare to compare the password to the hash
     const isCorrectPassword = await bcrypt.compare(password, user.password)
      // If the password is wrong, return a 400 status code
-    if(!isCorrectPassword) return res.status(400).send('incorrect password')
+    if(!isCorrectPassword) 
+      return res.status(400).send('incorrect password')
     
     // If the password matches, set req.session.loggedIn to true
     req.session.loggedIn = true 
-        // set req.session.userId to the user's id
+    // set req.session.userId to the user's id
     req.session.userId = user.id
 
    // call req.session.save and in the callback redirect to /
-   req.session.save(() => res.redirect('/'))
+    req.session.save(() => res.redirect('/'))
   
+
   }catch (err) {
-    res.status(500).send('Error logging in: ' + err.message)  
+    res.status(500).send('Error logging in: ' + err.message || err.sqlMessage)  
   } 
   
   
